@@ -1,0 +1,134 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/sparkjs/0.5.9/spark.min.js"></script>
+    <script src="notify.js"></script>
+    <title>PlayDog</title>
+</head>
+
+<body>
+    <script src="playdog.js"></script>
+    
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">PlayDog Control</a>
+                <button type="button" class="btn btn-default navbar-btn" data-toggle="modal" data-target="#loginModal">Spark Login</button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container-fluid">
+        
+        
+        <div class="alert alert-info" role="alert" id="alert" style="display: none;"></div>
+        
+    	<div class="row">
+    	    
+            
+    		<div class="col-md-6">
+    		    <div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							Actions
+						</h3>
+					</div>
+					<div class="panel-body" id="actions-body">
+					    
+						<div class="panel-group">
+						<div class="panel panel-default">
+    						<div class="panel-heading">
+    						    <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-actions-help" href="#panel-actions-help-content">Help</a>
+    						</div>
+    						<div id="panel-actions-help-content" class="panel-collapse collapse">
+        						<div class="panel-body">
+        						    this is how you use it
+        						</div>
+    						</div>
+        		        </div>
+        		        </div>
+                        <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "dispenseBtn()">Dispense</button><br>
+                        <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "teachBtn()">Teach</button><br>
+                        <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "singleBtn()">Single Base Game</button><br>
+                        <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "doubleBtn()">Double Base Game</button><br>
+                        <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "tripleBtn()">Triple Base Game</button><br>
+					</div>
+    		    </div>
+				
+    		</div>
+    		<div class="col-md-6">
+    		    <div class="panel panel-default">
+					<div class="panel-heading">
+					    <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-params" href="#panel-params-content">Advanced</a>
+					</div>
+					<div id="panel-params-content" class="panel-collapse collapse">
+						<div class="panel-body" id="params-body">
+						    <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon3">Timeout</span>
+                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" value="10">
+                            </div>
+                            <br>
+                            <div id="devices"></div>
+                            <br>
+                            <button class="btn btn-info    btn-block btn-lg" type="button" onclick = "refreshDevices()">Refresh Devices</button><br>
+						</div>
+					</div>
+    		    </div>
+    		    
+			
+			
+    		</div>
+    	</div>
+
+    </div>
+    
+    <div class="modal fade" id="deviceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="deviceModalTitle">Modal title</h4>
+          </div>
+          <div class="modal-body">
+            <button type="button" class="btn btn-default" onclick="testPIRBtn()">Test PIR  </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Login</h4>
+          </div>
+          <div class="modal-body">
+                <div class="alert alert-danger" role="alert" id="loginModalError" style="display: none;">Error Message</div>
+                <div class="input-group">
+                <span class="input-group-addon" id="basic-addon3">Spark Email</span>
+                <input type="text" class="form-control" id="spark-email" aria-describedby="basic-addon3">
+                </div>
+                <div class="input-group">
+                <span class="input-group-addon" id="basic-addon3">Spark Password</span>
+                <input type="password" class="form-control" id="spark-password" aria-describedby="basic-addon3">
+                </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="doLogin()">Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+</body>
+</html>
