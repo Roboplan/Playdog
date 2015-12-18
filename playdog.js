@@ -168,6 +168,8 @@ var stationRound = function(device, mode, timeout, callback) {
     
     console.log("round", device.id, mode);
     
+    $.notify("Calling " + device.name + " " + mode + "...", "info");
+    
     var params = mode + "," + timeout.toString();
     device.callFunction('Play',params, function (err, data) {
         if (err)
@@ -342,7 +344,7 @@ var teachBtn = function() {
     $.notify("Starting teach...", "info");
     stationRound(homebases[0], "Cue", timeout, function(err, data) {
         if (err)
-            $.notify(err);
+            $.notify(err, "error");
         else
             $.notify("Teach Success", "success");
     })
