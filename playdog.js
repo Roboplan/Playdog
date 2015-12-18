@@ -295,15 +295,6 @@ var doLogin = function()
       }
     );
 }
-/*sparkLogin(function(data) {
-    $.notify("Logged in", "success");
-    console.log(data);
-    loggedIn = true;
-    
-    spark.getEventStream('Run', 'mine', runEventHandler);
-    
-    refreshDevices();
-});*/
 
 
 var dispenseBtn = function() {
@@ -328,6 +319,14 @@ var dispenseBtn = function() {
     })
 };
 
+var updateLastGame = function(success)
+{
+    if (success)
+        $("#gameResult").html('<span class="label label-success">Last game succeeded</span>');
+    else
+        $("#gameResult").html('<span class="label label-danger">Last game failed</span>');
+}
+
 var teachBtn = function() {
     if (!ready)
     {
@@ -344,9 +343,15 @@ var teachBtn = function() {
     $.notify("Starting teach...", "info");
     stationRound(homebases[0], "Cue", timeout, function(err, data) {
         if (err)
+        {
             $.notify(err, "error");
+            updateLastGame(false);
+        }
         else
+        {
             $.notify("Teach Success", "success");
+            updateLastGame(true);
+        }
     })
 };
 
@@ -384,11 +389,13 @@ var doSeq = function(seq) {
                 if (res[0] == "1")
                 {
                     $.notify("Game Success", "success");
+                    updateLastGame(true);
                     return;
                 }
                 else
                 {
                     $.notify("Game Failed", "warn");
+                    updateLastGame(false);
                     return;
                 }
             }
@@ -496,7 +503,7 @@ var flash = function(device) {
                 else
                 {
                     console.log('update error', data);
-                    $.notify("Update Error " + data.output, "error");
+                    $.notify("Update Error", "error");
                 }
                 },
             error: function(data){

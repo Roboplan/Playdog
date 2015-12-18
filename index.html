@@ -32,31 +32,32 @@
             
     		<div class="col-md-6">
     		    <div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">
-							Actions
-						</h3>
-					</div>
-					<div class="panel-body" id="actions-body">
-					    
-						<div class="panel-group">
-						<div class="panel panel-default">
-    						<div class="panel-heading">
-    						    <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-actions-help" href="#panel-actions-help-content">Help <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></a>
-    						</div>
-    						<div id="panel-actions-help-content" class="panel-collapse collapse">
-        						<div class="panel-body">
-        						    this is how you use it
-        						</div>
-    						</div>
-        		        </div>
-        		        </div>
-                        <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "dispenseBtn()">Dispense</button><br>
-                        <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "teachBtn()">Teach</button><br>
-                        <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "singleBtn()">Single Base Game</button><br>
-                        <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "doubleBtn()">Double Base Game</button><br>
-                        <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "tripleBtn()">Triple Base Game</button><br>
-					</div>
+    					<div class="panel-heading">
+    						<h3 class="panel-title">
+    							Actions
+    						</h3>
+    					</div>
+    					<div class="panel-body" id="actions-body">
+    					    
+    						<div class="panel-group">
+      						<div class="panel panel-default">
+          						<div class="panel-heading">
+          						    <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-actions-help" href="#panel-actions-help-content">Help <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></a>
+          						</div>
+          						<div id="panel-actions-help-content" class="panel-collapse collapse">
+              						<div class="panel-body">
+              						    Help text goes here
+              						</div>
+          						</div>
+      		        </div>
+    		        </div>
+                <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "dispenseBtn()" data-toggle="tooltip" title="Dispense single portion">Dispense</button><br>
+                <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "teachBtn()"    data-toggle="tooltip" title="Teach the come sound">Teach</button><br>
+                <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "singleBtn()"   data-toggle="tooltip" title="Game with only the homebase">Single Base Game</button><br>
+                <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "doubleBtn()"   data-toggle="tooltip" title="Game with one base and one homebase">Double Base Game</button><br>
+                <button class="btn btn-primary btn-block btn-lg" type="button" onclick = "tripleBtn()"   data-toggle="tooltip" title="Game with two bases and one homebase">Triple Base Game</button><br>
+                <h3><div id="gameResult"></div></h3>
+		          </div>
     		    </div>
 				
     		</div>
@@ -146,6 +147,10 @@
       </div>
     </div>
 
-    
+  <script>
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+  });
+  </script>    
 </body>
 </html>
