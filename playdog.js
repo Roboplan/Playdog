@@ -5,8 +5,13 @@ var ready = false;
 var loggedIn = false;
 var activeDevice = null;
 var timeout = 10;
+var access_token = null;
 
 var TIMEOUT_DELAY = 500;
+
+var fwFilenames = ['Firmware.ino', 'Melodies.cpp', 'Melodies.h', 'PDservo.cpp', 'PDservo.h', 'Version.cpp', 'Version.h'];
+var fwFilesURL  = 'https://raw.githubusercontent.com/eyak/Playdog-Demo/master/fw/';
+
 
 function deviceModal(deviceName, deviceID) {
     $("#deviceModalTitle").html("Device " + deviceName + " (" + deviceID + ")");
@@ -222,15 +227,23 @@ var refreshDevices = function()
         return;
     }
     
-    var devButton = function(device) {
-        var res='<button type="button" class="btn btn-{deviceColor}" onclick=\'deviceModal("{deviceName}","{deviceId}")\'>{deviceName} {deviceType}</button>';
+    var devDisplay = function(device) {
+        
+        //var res='<button type="button" class="btn btn-{deviceColor}" onclick=\'deviceModal("{deviceName}","{deviceId}")\'>{deviceName} {deviceType}</button>';
+        
+        var res =   '<tr>\
+                        <td><button type="button" class="btn btn-{deviceColor}" onclick=\'deviceModal("{deviceName}","{deviceId}")\'>{deviceName}</button></td> \
+                        <td>{deviceId}</td> \
+                        <td>{deviceType}</td> \
+                    </tr>';
+        
         
         return res.format({deviceColor: "primary", deviceName: device.name, deviceId: device.id, deviceType: device.type});
     }
     
     $.notify("Polling devices...", "info")
     getDevices(function() {
-        $("#devices").html(homebases.map(devButton) + bases.map(devButton) + others.map(devButton));
+        $("#devices").html(homebases.map(devDisplay) + bases.map(devDisplay) + others.map(devDisplay));
         $.notify("Devices updated", "info");
     });
 }
@@ -254,14 +267,12 @@ var doLogin = function()
     
     loginPromise.then(
       function(data) {
-        //callback(data);
-        //$('#spark-email').val('');
-        //$('#spark-password').val('');
         $.notify("Logged in", "success");
-        //displayErrorMessage('');
-        //$('#spark-login-form-error').hide();
         hideLoginError();
         $('#loginModal').modal('hide');
+        
+        //console.log(data);
+        access_token = data.access_token;
         
         loggedIn = true;
     
@@ -455,37 +466,82 @@ var gameSequence = function(len) {
     doSeq(seq);
 };
 
-var flash = function(device, files) {
-    //var file = loadFile('http://www.google.com');
-    getFile("text.txt", function(content) {
-        console.log("Flashing ", content);
-        
-        var baseUrl = 'https://api.particle.io';
-    
-        var r = this.request({
-            uri: baseUrl + '/v1/devices/' + device.id + '?access_token=' + accessToken,
-            method: 'PUT',
-            json: true
-        }, callback);
-        
-        
-    });
-    //console.log(file);
-    return;
-    
-    
-        
-    var form = r.form(),
-    paramName = 'file';
-        
-    for (var i in files) {
-        form.append(paramName, fs.createReadStream(path.join(process.cwd(), files[i])), {
-        filename: path.basename(files[i])
-        });
-        paramName = 'file' + i;
-        }
-
+var flashBtn = function()
+{
+    flash(activeDevice);
 }
+
+var flash = function(device) {
+    var files = new FormData();
+    
+    var putFiles = function()
+    {
+        console.log(files);
+        $.notify("Issueing Update...", "info");
+        
+        jQuery.ajax({
+            url: 'https://api.particle.io/v1/devices/' + device.id + '?access_token=' + access_token,
+            data: files,
+            processData: false,
+            contentType: false,
+            type: 'PUT',
+            success: function(data){
+                if (data.ok)
+                {
+                    console.log('success', data);
+                    $.notify("Update Started", "info");
+                }
+                else
+                {
+                    console.log('update error', data);
+                    $.notify("Update Error " + data.output, "error");
+                }
+                },
+            error: function(data){
+                console.log('error', data);
+                $.notify("Update Failed " + data, "error");
+                }
+            });
+    }
+    
+    $.notify("Fetching FW files...", "info");
+    var getFiles = function(index) {
+        if (fwFilenames.length == 0)
+        {
+            putFiles();
+        }
+        else
+        {
+            var filename = fwFilenames.pop();
+            
+            getFile(fwFilesURL + filename, function(err, content) {
+                
+                if (err)
+                {
+                    $.notify(err, 'error');
+                    return;
+                }
+                
+                var tmpBlob = new Blob([content], {type : 'text/html'});
+                var name;
+                
+                if (index==0)
+                    name = 'file';
+                else
+                    name = 'file_' + index.toString();
+                
+                console.log('Got ', name, filename);
+                
+                files.append(name, tmpBlob, filename);
+                
+                getFiles(index+1);
+            })
+        }
+    };
+    
+    getFiles(0);
+}
+
 function getFile(url, callback) {
     var xmlhttp;
     
@@ -501,10 +557,11 @@ function getFile(url, callback) {
         {
             if (xmlhttp.status == 200) 
             {
-                callback(xmlhttp.responseText);
+                callback(null, xmlhttp.responseText);
             }
             else
             {
+                callback(new Error('Cant get '+url), null);
                 console.log("getFile failed", xmlhttp.readyState, xmlhttp.status);
             }
         }
