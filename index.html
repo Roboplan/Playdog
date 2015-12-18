@@ -60,23 +60,26 @@
 				
     		</div>
     		<div class="col-md-6">
-    		    <div class="panel panel-default">
-					<div class="panel-heading">
-					    <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-params" href="#panel-params-content">Advanced</a>
-					</div>
-					<div id="panel-params-content" class="panel-collapse collapse">
-						<div class="panel-body" id="params-body">
-						    <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon3">Timeout</span>
-                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" value="10">
-                            </div>
-                            <br>
-                            <div id="devices"></div>
-                            <br>
-                            <button class="btn btn-info    btn-block btn-lg" type="button" onclick = "refreshDevices()">Refresh Devices</button><br>
-						</div>
-					</div>
-    		    </div>
+		      <div class="panel panel-default">
+					  <div class="panel-heading">
+				      <a class="panel-title">Options</a>
+					  </div>
+					  <div id="panel-params-content" class="panel-collapse">
+  					  <div class="panel-body" id="params-body">
+  						    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon3">Time to bases (secs)</span>
+                      <input type="text" class="form-control" id="inputTimeout" aria-describedby="basic-addon3" value="10">
+                      <span class="input-group-btn">
+                      <button class="btn btn-default" type="button" onclick="updateTimeout()">Update</button>
+                      </span>
+                  </div>
+                  <br>
+                  <div id="devices"></div>
+                  <br>
+                  <button class="btn btn-info    btn-block btn-lg" type="button" onclick = "refreshDevices()">Refresh Devices</button><br>
+  						</div>
+  					</div>
+  		    </div>
     		    
 			
 			

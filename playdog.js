@@ -1,13 +1,10 @@
-//this.request = require('request');
-
-//var spark = require('spark');
-
 var homebases = [];
 var bases = [];
 var others = [];
 var ready = false;
 var loggedIn = false;
 var activeDevice = null;
+var timeout = 10;
 
 var TIMEOUT_DELAY = 500;
 
@@ -23,11 +20,10 @@ function deviceModal(deviceName, deviceID) {
         });
 }
 
-var setStatus = function(text) {
-    //$("#alert").html(text);
-    //$("#alert").fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
-    
-    $.notify(text, "info");
+function updateTimeout()
+{
+    timeout = parseInt($("#inputTimeout").val());
+    console.log("Timeout updated", timeout);
 }
 
 if (!Date.now) {
@@ -36,11 +32,30 @@ if (!Date.now) {
 
 var testPIRBtn = function()
 {
-    checkPIR(activeDevice, function (err, data) {console.log("TestPIR:", err, data);});
+    checkPIR(activeDevice, function (err, data) {
+        console.log("TestPIR: err:", err, " data:", data);
+        
+        if (err)
+        {
+            $.notify(err, "error");
+        }
+        else
+        {
+            if (data.return_value == "1")
+            {
+                $.notify("Test executing", "info");
+            }
+            else
+            {
+                $.notify("Test failed:" + data.return_value, "error");
+            }
+        }
+        
+    });
 }
 
 var checkPIR = function(device, callback) {
-    device.callFunction('AtomAction','Check PIR,5', callback);
+    device.callFunction('AtomAction','Check PIR,10', callback);
 };
 
 var dispense = function(device, callback) {
@@ -89,10 +104,10 @@ var checkDevices = function(devices, callback) {
     if (devices.length > 0)
     {
         var device = devices.pop()
-        console.log("Checking:", device);
+        //console.log("Checking:", device);
         if (device.connected)
         {
-            console.log("connected");
+            //console.log("connected");
             checkDeviceHomeBase(device, devices, callback);
         }
         else
@@ -203,7 +218,7 @@ var refreshDevices = function()
 {
     if (! loggedIn)
     {
-        setStatus("Login first");
+        $.notify("Login first", "warn");
         return;
     }
     
@@ -212,9 +227,11 @@ var refreshDevices = function()
         
         return res.format({deviceColor: "primary", deviceName: device.name, deviceId: device.id, deviceType: device.type});
     }
-        
+    
+    $.notify("Polling devices...", "info")
     getDevices(function() {
-        $("#devices").html(homebases.map(devButton) + bases.map(devButton) + others.map(devButton))
+        $("#devices").html(homebases.map(devButton) + bases.map(devButton) + others.map(devButton));
+        $.notify("Devices updated", "info");
     });
 }
 
@@ -240,7 +257,7 @@ var doLogin = function()
         //callback(data);
         //$('#spark-email').val('');
         //$('#spark-password').val('');
-        setStatus("Logged in");
+        $.notify("Logged in", "success");
         //displayErrorMessage('');
         //$('#spark-login-form-error').hide();
         hideLoginError();
@@ -266,7 +283,7 @@ var doLogin = function()
     );
 }
 /*sparkLogin(function(data) {
-    setStatus("Logged in");
+    $.notify("Logged in", "success");
     console.log(data);
     loggedIn = true;
     
@@ -279,44 +296,44 @@ var doLogin = function()
 var dispenseBtn = function() {
     if (!ready)
     {
-        setStatus("Login first");
+        $.notify("Login first", "warn");
         return;
     }
     
     if (homebases.length<1)
     {
-        setStatus("Missing homebases");
+        $.notify("Missing homebase", "error");
         return;
     }
     
-    setStatus("Dispensing...");
+    $.notify("Dispensing...", "info");
     dispense(homebases[0], function(err, data) {
         if (err)
-            setStatus(err);
+            $.notify(err, "error");
         else
-            setStatus("Dispensed");
+            $.notify("Dispensed", "success");
     })
 };
 
 var teachBtn = function() {
     if (!ready)
     {
-        setStatus("Login first");
+        $.notify("Login first", "warn");
         return;
     }
 
     if (homebases.length<1)
     {
-        setStatus("Missing homebases");
+        $.notify("Missing homebases","error");
         return;
     }
     
-    setStatus("Starting teach...");
-    stationRound(homebases[0], "Cue", 10, function(err, data) {
+    $.notify("Starting teach...", "info");
+    stationRound(homebases[0], "Cue", timeout, function(err, data) {
         if (err)
-            setStatus(err);
+            $.notify(err);
         else
-            setStatus("Teach Success");
+            $.notify("Teach Success", "success");
     })
 };
 
@@ -341,22 +358,25 @@ var doSeq = function(seq) {
     {
         var homebase = seq.pop()
         
-        stationRound(homebase, "Reward", 10, function(err, data) {
+        stationRound(homebase, "Reward", timeout, function(err, data) {
             if (err)
             {
-                setStatus(err);
-                return
+                $.notify(err, "error");
+                return;
             }
             else
             {
-                if (data.return_value == "1")
+                var res = data.data.split(":");
+                
+                if (res[0] == "1")
                 {
-                    setStatus("Game Success");
+                    $.notify("Game Success", "success");
+                    return;
                 }
                 else
                 {
-                    setStatus("Game Failed");
-                    return
+                    $.notify("Game Failed", "warn");
+                    return;
                 }
             }
         });
@@ -365,10 +385,10 @@ var doSeq = function(seq) {
     {
         var base = seq.pop()
         
-        stationRound(base, "Default", 10, function(err, data) {
+        stationRound(base, "Default", timeout, function(err, data) {
             if (err)
             {
-                setStatus(err);
+                $.notify(err, "error");
                 return
             }
             else
@@ -377,12 +397,12 @@ var doSeq = function(seq) {
                 
                 if (res[0] == "1")
                 {
-                    setStatus("Base reached, continue...");
+                    $.notify("Base reached, continue...", "success");
                     doSeq(seq);
                 }
                 else
                 {
-                    setStatus("Base missed. Failed");
+                    $.notify("Base missed. Failed", "warn");
                     return
                 }
             }
@@ -393,23 +413,23 @@ var doSeq = function(seq) {
 var gameSequence = function(len) {
     if (!ready)
     {
-        setStatus("Login first");
+        $.notify("Login first", "warn");
         return;
     }
 
     if (homebases.length<1)
     {
-        setStatus("Missing homebases");
+        $.notify("Missing homebases", "error");
         return;
     }
 
     if (len>1 && bases.length<1)
     {
-        setStatus("Missing bases");
+        $.notify("Missing bases", "error");
         return;
     }
     
-    setStatus(len.toString() + "-Game...");
+    $.notify(len.toString() + "-Game...", "info");
     
     var seq = [homebases[0]];
     
