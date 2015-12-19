@@ -109,7 +109,18 @@
           </div>
           <div class="modal-body">
             <button type="button" class="btn btn-default" onclick="testPIRBtn()">Test PIR</button>
-            <button type="button" class="btn btn-default" onclick="flashBtn()"  >Flash</button>
+            <button type="button" class="btn btn-default" onclick="flashOptionsBtn()"  >Flash</button>
+            <br>
+            <br>
+            <div class="well" id='flashOptions'>
+              <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon3">Firmware URL</span>
+                  <input type="text" class="form-control" id="flashURL" aria-describedby="basic-addon3" value='https://raw.githubusercontent.com/eyak/Playdog-Demo/master/fw/'>
+                  <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" onclick="flashBtn()">Begin</button>
+                  </span>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

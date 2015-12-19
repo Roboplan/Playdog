@@ -7,13 +7,14 @@ var activeDevice = null;
 var timeout = 10;
 var access_token = null;
 
-var TIMEOUT_DELAY = 500;
+var TIMEOUT_DELAY = 1000;
 
 var fwFilenames = ['Firmware.ino', 'Melodies.cpp', 'Melodies.h', 'PDservo.cpp', 'PDservo.h', 'Version.cpp', 'Version.h'];
 var fwFilesURL  = 'https://raw.githubusercontent.com/eyak/Playdog-Demo/master/fw/';
 
 
 function deviceModal(deviceName, deviceID) {
+    $("#flashOptions").hide();
     $("#deviceModalTitle").html("Device " + deviceName + " (" + deviceID + ")");
     $("#deviceModal").modal()
     
@@ -380,6 +381,7 @@ var doSeq = function(seq) {
             if (err)
             {
                 $.notify(err, "error");
+                updateLastGame(false);
                 return;
             }
             else
@@ -409,6 +411,7 @@ var doSeq = function(seq) {
             if (err)
             {
                 $.notify(err, "error");
+                updateLastGame(false);
                 return
             }
             else
@@ -423,6 +426,7 @@ var doSeq = function(seq) {
                 else
                 {
                     $.notify("Base missed. Failed", "warn");
+                    updateLastGame(false);
                     return
                 }
             }
@@ -475,8 +479,14 @@ var gameSequence = function(len) {
     doSeq(seq);
 };
 
+var flashOptionsBtn = function()
+{
+    $('#flashOptions').toggle();
+}
+
 var flashBtn = function()
 {
+    fwFilesURL = $('#flashURL').val();
     flash(activeDevice);
 }
 
