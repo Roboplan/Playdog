@@ -46,7 +46,59 @@
           						</div>
           						<div id="panel-actions-help-content" class="panel-collapse collapse">
               						<div class="panel-body">
-              						    Help text goes here
+              						    <h3>Step 1: Familiarization</h3>
+                              Before using the device, make sure your dog is not afraid of PlayDog.
+                              If your pet is fearful, keep the device unplugged for a few days, 
+                              give it a treat and create a good atmosphere around the device.
+                              <br>
+                              
+                              <h3>Step 2: Introduction</h3>
+                              Using the Dispese is the first step in your journey with PlayDog.
+                              The home base (feeding base) gives 'free food' to your dog in order to train it to get its food from the PlayDog home base.
+                              Move to the next stage (teach) after a day or two, when you see that your dog feels comfortable with the home base.
+                              If you see that the dog is afraid of the home base, go back to familiarization.
+                              
+                              <h3>Step 3: Teaching</h3>
+                              This game will teach the dog the essence of PlayDog - when a base makes a noise,
+                              the dog should come and get food. It works on the principle of classic conditioning 
+                              with positive reinforcement and assumes the dog is already trained to come when the
+                              home base dispenses food.
+                              <br>
+                              The home base gives the dog 'free food' once, then waits for the dog to arrive.
+                              When the dog arrives it plays the 'come' cue and dispenses again.
+                              If the dog doesn't arrive after the time defined as maximum time per base the game is declared failed.
+                              <br>
+                              The goal is to teach the dog the connection between the beep and the reward. 
+                              Move to the next stage (practice) after 1-3 days, if your dog successfully accomplishes most games (70% success rate).
+                              <br>
+                              
+                              <h3>Step 4: Practicing</h3>
+                              The Single Base Game completes your training. The home base plays the 'come' cue and afterwards starts beeping. 
+                              The dog has a limited amount of time to arrive and get the food. Otherwise, the dog "fails" the game.
+                              <br>
+                              Move to the next stage(Remote Calling Base) after 2-5 days, if your dog successfully accomplishes most games (70% success rate).
+                              If your dog fails after 3-5 days to cross the 50% success rate line, consider going back to the 
+                              Teach stage for a few more days.
+                              <br>
+                              
+                              <h3>Step 5: Remote Calling Base</h3>
+                              Double Base Game involves additional bases on top of the home (feeding) base, and familiarizes
+                              your pet with the other bases in the PlayDog system. A random calling base calls the dog, after it has
+                              already learnt to come to the 'come cue'. If your dog already understood PlayDog, it should come to 
+                              the calling base (with some hesitation, and not on the first try). The moment the calling base sees
+                              your pet near, the home (feeding) base will start calling the dog and reward it with a food portion.
+                              <br>
+                              Move to the next (and final) stage after 3-10 days when your dog passes the 60% success rate mark.
+                              <br>
+                              <h3>Step 6: Triple Base Game</h3>
+                              
+                              This is the final PlayDog mode, where all the bases (calling bases and feeding base) are involved, 
+                              making your dog run around and enjoy.
+                              <br>
+                              Base order is a randomized path and calling bases are called one by one. The last base is always the 
+                              home base that rewards the dog if the dog arrived at all the bases on time.
+                              <br>
+                              You can make the game more complex by shortening the time to base parameter.
               						</div>
           						</div>
       		        </div>
@@ -87,8 +139,15 @@
                     <tbody id="devices">
                     </tbody>
                   </table>
-
-                  <button class="btn btn-info    btn-block btn-lg" type="button" onclick = "refreshDevices()">Refresh Devices</button><br>
+                  
+                  <div class="row">
+                    <div class="col-md-6">
+                      <button class="btn btn-info    btn-block btn-lg" type="button" data-toggle="modal" data-target="#addDeviceModal">Add Device</button><br>
+                    </div>
+                    <div class="col-md-6">
+                      <button class="btn btn-info    btn-block btn-lg" type="button" onclick = "refreshDevices()">Refresh Devices</button><br>
+                    </div>
+                  </div>
   						</div>
   					</div>
   		    </div>
@@ -121,6 +180,28 @@
                   </span>
               </div>
             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal fade" id="addDeviceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Adding Devices</h4>
+          </div>
+          <div class="modal-body">
+            To add a device, first pair your device using <a href="https://docs.particle.io/guide/getting-started/start/photon/#connect-your-photon">these instructions</a>.
+            <br>
+            Once your device is connected to the cloud, click refresh devices, and you should see it listed in the devices table. 
+            Otherwise, make sure it is on-line and that you are using the same credentials when logging in on this page, and when 
+            setting up the Photons.
+            Click on it's name to flash it with the lastest Playdog firmware.
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
