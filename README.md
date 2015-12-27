@@ -5,7 +5,7 @@
 PlayDog is a 'Make It Yourself', interactive game for dogs.
 
 It's an experimental product, built of 3D printed parts & off the shelf electronics.
-You make it entirely on your own and control it via a dedicated PlayDog App.
+You make it entirely on your own and control it via a [dedicated PlayDog App](http://roboplan.github.io/Playdog).
 
 Based on principals of operational conditioning, PlayDog uses sound and food coupling,
 teaching your dog to act on a melody as it would grant it an edible reward. 
