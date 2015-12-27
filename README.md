@@ -1,6 +1,6 @@
 # Playdog
 
-[[https://github.com/Roboplan/Playdog/blob/master/imgs/cover.jpg|alt=Playdog and dog]]
+![Playdog and dog](https://raw.githubusercontent.com/Roboplan/Playdog/master/imgs/cover.jpg)
 
 PlayDog is a 'Make It Yourself', interactive game for dogs.
 
