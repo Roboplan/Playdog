@@ -12,7 +12,6 @@ var TIMEOUT_DELAY = 1000;
 var fwFilenames = ['Firmware.ino', 'Melodies.cpp', 'Melodies.h', 'PDservo.cpp', 'PDservo.h', 'Version.cpp', 'Version.h'];
 var fwFilesURL  = null;
 
-
 function deviceModal(deviceName, deviceID) {
     $("#flashOptions").hide();
     $("#deviceModalTitle").html("Device " + deviceName + " (" + deviceID + ")");
