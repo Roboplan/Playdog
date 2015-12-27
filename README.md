@@ -2,7 +2,7 @@
 
 ![Playdog and dog](https://raw.githubusercontent.com/Roboplan/Playdog/master/imgs/cover.jpg)
 
-PlayDog is a 'Make It Yourself', interactive game for dogs.
+PlayDog is a 'Make It Yourself', interactive game for dogs -- [check out a video!](https://www.youtube.com/watch?v=Q9UyuIkXfJs).
 
 It's an experimental product, built of 3D printed parts & off the shelf electronics.
 You make it entirely on your own and control it via a [dedicated PlayDog App](http://roboplan.github.io/Playdog).
