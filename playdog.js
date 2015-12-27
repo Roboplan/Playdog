@@ -10,7 +10,7 @@ var access_token = null;
 var TIMEOUT_DELAY = 1000;
 
 var fwFilenames = ['Firmware.ino', 'Melodies.cpp', 'Melodies.h', 'PDservo.cpp', 'PDservo.h', 'Version.cpp', 'Version.h'];
-var fwFilesURL  = 'https://raw.githubusercontent.com/eyak/Playdog-Demo/master/fw/';
+var fwFilesURL  = null;
 
 
 function deviceModal(deviceName, deviceID) {
