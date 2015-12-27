@@ -13,6 +13,8 @@ It's built of multiple bases positioned in your home, and it plans random
 running laps from base to base, ending at the feeding base - where, after 
 a successful lap, your pet receives a tasty snack.
 
+# Make it!
+![Parts](https://raw.githubusercontent.com/Roboplan/Playdog/master/imgs/all_parts.jpg)
 
 ## Must Knows
 
