@@ -322,9 +322,9 @@ var dispenseBtn = function() {
 var updateLastGame = function(success)
 {
     if (success)
-        $("#gameResult").html('<span class="label label-success">Last game succeeded</span>');
+        $("#gameResult").html('<span class="label label-success col-sm-6">Last game succeeded</span>');
     else
-        $("#gameResult").html('<span class="label label-danger">Last game failed</span>');
+        $("#gameResult").html('<span class="label label-danger col-sm-6">Last game failed</span>');
 }
 
 var teachBtn = function() {
