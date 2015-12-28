@@ -15,6 +15,7 @@ a successful lap, your pet receives a tasty snack.
 
 # Make it!
 ![Parts](https://raw.githubusercontent.com/Roboplan/Playdog/master/imgs/all_parts.jpg)
+
 View the [complete instructions](http://playdog.dozuki.com/).
 
 ## Must Knows
