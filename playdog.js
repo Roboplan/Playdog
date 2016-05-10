@@ -524,13 +524,13 @@ var flash = function(device) {
     
     $.notify("Fetching FW files...", "info");
     var getFiles = function(index) {
-        if (fwFilenames.length == 0)
+        if (index < 0)
         {
             putFiles();
         }
         else
         {
-            var filename = fwFilenames.pop();
+            var filename = fwFilenames[index];
             
             getFile(fwFilesURL + filename, function(err, content) {
                 
@@ -552,12 +552,12 @@ var flash = function(device) {
                 
                 files.append(name, tmpBlob, filename);
                 
-                getFiles(index+1);
+                getFiles(index-1);
             })
         }
     };
     
-    getFiles(0);
+    getFiles(fwFilenames.length - 1);
 }
 
 function getFile(url, callback) {
